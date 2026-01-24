@@ -173,8 +173,17 @@ async function displayVehicles() {
         ? `<button onclick="bookVehicleQuick(${vehicle.id})" class="btn">Book Now</button>`
         : `<button disabled class="btn">Not Available</button>`;
 
+      // Check if this is the Toyota Camry and add image
+      const isCamry = vehicle.brand === 'Toyota' && vehicle.model === 'Camry';
+      const camryImage = isCamry
+        ? `<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+             <img src="/assets/Images/Camry.png" alt="Toyota Camry" style="width: 150px; height: auto; border-radius: 8px;">
+             <h3 style="margin: 0;">${vehicle.brand} ${vehicle.model}</h3>
+           </div>`
+        : `<h3>${vehicle.brand} ${vehicle.model}</h3>`;
+
       card.innerHTML = `
-        <h3>${vehicle.brand} ${vehicle.model}</h3>
+        ${camryImage}
         <p><strong>Year:</strong> ${vehicle.year || 'N/A'}</p>
         <p><strong>Price per Hour:</strong> $${vehicle.price_per_hour}</p>
         <p><strong>Location:</strong> ${vehicle.location}</p>
