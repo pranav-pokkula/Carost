@@ -1,0 +1,43 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkShare - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body onload="init(); displayUserName();">
+  <nav>
+    <div class="logo">ParkShare</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="vehicles.html">Vehicles</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </nav>
+
+  <main>
+    <h2>Welcome, <span id="user-name"></span>!</h2>
+
+    <!-- Display different content based on user role -->
+    <script>
+      if (currentUser.role === "owner") {
+        document.write(`
+          <h3>Your Vehicles</h3>
+          <p>You can add and manage your vehicles here.</p>
+        `);
+      } else {
+        document.write(`
+          <h3>Available Vehicles</h3>
+          <p><a href="vehicles.html" class="btn">Browse Vehicles</a></p>
+        `);
+      }
+    </script>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 ParkShare. All rights reserved.</p>
+  </footer>
+</body>
+</html>

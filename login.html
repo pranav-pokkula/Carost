@@ -1,0 +1,38 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkShare - Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body onload="init()">
+  <nav>
+    <div class="logo">ParkShare</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="vehicles.html">Vehicles</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </div>
+  </nav>
+
+  <main>
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Login</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 ParkShare. All rights reserved.</p>
+  </footer>
+</body>
+</html>
