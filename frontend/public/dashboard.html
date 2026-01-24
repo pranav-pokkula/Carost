@@ -1,0 +1,55 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkShare - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body onload="init(); displayUserName();">
+  <nav>
+    <div class="nav-container">
+    <div class="logo">🚗 ParkShare</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="vehicles.html">Vehicles</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+      </div>
+  </nav>
+
+  <main>
+    <h2>Welcome, <span id="user-name"></span>! <span id="verification-status"></span></h2>
+
+    <div id="stats-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 20px 0;">
+      <!-- Stats will be inserted here -->
+    </div>
+
+    <h3>Your Bookings</h3>
+    <div id="bookings-list">
+      <!-- Bookings will be inserted here -->
+    </div>
+
+    <h3>Rental History</h3>
+    <div id="history-list">
+      <!-- Rental history will be inserted here -->
+    </div>
+
+    <p><a href="vehicles.html" class="btn">Browse All Vehicles</a></p>
+  </main>
+
+  <script>
+    // Load dashboard data
+    window.addEventListener('load', function() {
+      displayStats();
+      displayBookings();
+      displayRentalHistory();
+    });
+  </script>
+
+  <footer>
+    <p>&copy; 2023 ParkShare. All rights reserved.</p>
+  </footer>
+</body>
+</html>

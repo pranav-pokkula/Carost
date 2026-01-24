@@ -1,0 +1,56 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkShare - Home</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body onload="init()">
+  <nav>
+    <div class="nav-container">
+      <div class="logo">🚗 ParkShare</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="vehicles.html">Vehicles</a>
+        <a href="login.html" id="login-link">Login</a>
+        <a href="register.html" id="register-link">Register</a>
+        <a href="dashboard.html" id="dashboard-link" style="display: none;">Dashboard</a>
+        <a href="#" onclick="logout()" id="logout-link" style="display: none;">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Welcome to ParkShare</h1>
+    <p>The ultimate solution for car rental and parking efficiency. Find the perfect vehicle for your journey.</p>
+    <a href="register.html" class="btn">Get Started →</a>
+  </header>
+
+  <main>
+    <h2 style="text-align: center; margin: 3rem 0 1.5rem;">Why Choose ParkShare?</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0;">
+      <div class="card">
+        <h3>🚘 Wide Selection</h3>
+        <p>Choose from 80+ vehicles across multiple locations. From economy to luxury, we have the perfect car for you.</p>
+      </div>
+      <div class="card">
+        <h3>✅ Verified Owners</h3>
+        <p>All vehicle owners undergo strict verification to ensure safety and reliability for every rental.</p>
+      </div>
+      <div class="card">
+        <h3>💰 Best Prices</h3>
+        <p>Competitive hourly rates starting from just $10/hour. Book by the hour, day, or week.</p>
+      </div>
+    </div>
+    <div style="text-align: center; margin: 3rem 0;">
+      <a href="vehicles.html" class="btn btn-success" style="padding: 1rem 2.5rem; font-size: 1.1rem;">Browse Vehicles →</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 ParkShare. All rights reserved.</p>
+  </footer>
+</body>
+</html>
