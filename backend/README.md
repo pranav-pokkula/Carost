@@ -1,6 +1,6 @@
-# ParkShare Backend
+# Carost Backend
 
-RESTful API server for the ParkShare car rental application.
+RESTful API server for the Carost car rental application.
 
 ## Technology Stack
 
@@ -15,7 +15,7 @@ RESTful API server for the ParkShare car rental application.
 
 - `server.js` - Main Express server with all API routes
 - `initDatabase.js` - Database initialization and seed data script
-- `parkshare.db` - SQLite database (created after running init script)
+- `carost.db` - SQLite database (created after running init script)
 - `.env` - Environment variables
 - `package.json` - Dependencies and scripts
 

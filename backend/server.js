@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Initialize database
-const db = new Database(path.join(__dirname, 'parkshare.db'));
+const db = new Database(path.join(__dirname, 'carost.db'));
 db.pragma('foreign_keys = ON');
 
 // Middleware
@@ -517,7 +517,7 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════════════════╗
-║   ParkShare Rental API Server                     ║
+║   Carost Rental API Server                     ║
 ║   Server running on http://localhost:${PORT}      ║
 ║   Environment: ${process.env.NODE_ENV || 'development'}                        ║
 ╚═══════════════════════════════════════════════════╝

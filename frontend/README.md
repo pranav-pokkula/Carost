@@ -1,6 +1,6 @@
-# ParkShare Frontend
+# Carost Frontend
 
-User interface for the ParkShare car rental application.
+User interface for the Carost car rental application.
 
 ## Structure
 

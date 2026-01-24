@@ -1,5 +1,5 @@
 {
-  "name": "parkshare-rental",
+  "name": "carost-rental",
   "version": "1.0.0",
   "description": "Full-stack car rental application with RESTful backend",
   "main": "server.js",

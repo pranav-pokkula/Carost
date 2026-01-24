@@ -1,4 +1,4 @@
-# ParkShare - Car Rental Application
+# Carost - Car Rental Application
 
 A full-stack car rental application with RESTful backend services, SQL database, and user-friendly interface.
 
@@ -9,7 +9,7 @@ Carost/
 ├── backend/                 # Backend API server
 │   ├── server.js           # Express server with REST API
 │   ├── initDatabase.js     # Database initialization script
-│   ├── parkshare.db        # SQLite database
+│   ├── carost.db        # SQLite database
 │   ├── package.json        # Backend dependencies
 │   ├── .env                # Environment variables
 │   └── node_modules/       # Backend dependencies
@@ -110,7 +110,7 @@ The server will run on http://localhost:3000
 **Main Application**: http://localhost:3000/
 
 **Test Credentials:**
-- Email: `admin@parkshare.com` | Password: `password123`
+- Email: `admin@carost.com` | Password: `password123`
 - Email: `john.doe@example.com` | Password: `password123`
 - Email: `jane.smith@example.com` | Password: `password123`
 

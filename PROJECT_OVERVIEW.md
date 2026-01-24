@@ -1,4 +1,4 @@
-# ParkShare - Complete Project Overview
+# Carost - Complete Project Overview
 
 ## 📋 Table of Contents
 1. [Architecture Overview](#architecture-overview)
@@ -15,7 +15,7 @@
 
 ## 🏗️ Architecture Overview
 
-ParkShare follows a **client-server architecture** with clear separation between frontend and backend:
+Carost follows a **client-server architecture** with clear separation between frontend and backend:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -40,7 +40,7 @@ ParkShare follows a **client-server architecture** with clear separation between
 │  └────────────────────┬──────────────────────────────────┘  │
 │                       │                                      │
 │  ┌────────────────────▼──────────────────────────────────┐  │
-│  │  SQLite Database (parkshare.db)                       │  │
+│  │  SQLite Database (carost.db)                       │  │
 │  │  - Users, Vehicles, Bookings, History, Verification  │  │
 │  │  - Managed by better-sqlite3                         │  │
 │  └───────────────────────────────────────────────────────┘  │
@@ -56,7 +56,7 @@ Carost/
 ├── backend/                          # Backend server directory
 │   ├── server.js                     # Main Express server (REST API)
 │   ├── initDatabase.js               # Database initialization script
-│   ├── parkshare.db                  # SQLite database file
+│   ├── carost.db                  # SQLite database file
 │   ├── package.json                  # Backend dependencies
 │   ├── .env                          # Environment variables
 │   ├── node_modules/                 # Installed dependencies
@@ -518,7 +518,7 @@ POST /api/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin@parkshare.com",
+  "email": "admin@carost.com",
   "password": "password123"
 }
 ```
@@ -529,7 +529,7 @@ Content-Type: application/json
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "user": {
     "id": 1,
-    "email": "admin@parkshare.com",
+    "email": "admin@carost.com",
     "name": "Admin User",
     "role": "owner",
     "verified": 1
@@ -737,7 +737,7 @@ const booking = await apiRequest('/bookings', {
 // Payload
 {
   "id": 1,
-  "email": "admin@parkshare.com",
+  "email": "admin@carost.com",
   "role": "owner",
   "iat": 1706122456,  // Issued at
   "exp": 1706208856   // Expires in 24 hours
@@ -947,7 +947,7 @@ if (req.user.role !== 'owner') {
 3. **server.js** executes:
    - Line 1-8: Import dependencies
    - Line 10-12: Setup Express app and config
-   - Line 15-16: Connect to SQLite database (`parkshare.db`)
+   - Line 15-16: Connect to SQLite database (`carost.db`)
    - Line 19-21: Configure middleware (CORS, JSON, static files)
    - Line 23-33: Setup authentication middleware
    - Line 35-385: Define all API routes
@@ -1045,7 +1045,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 ### File Dependencies
 
 ```
-index.html ─┬─► app.js ──► API (server.js) ──► Database (parkshare.db)
+index.html ─┬─► app.js ──► API (server.js) ──► Database (carost.db)
             └─► styles.css
 
 server.js ──┬─► SQLite (better-sqlite3)
@@ -1053,9 +1053,9 @@ server.js ──┬─► SQLite (better-sqlite3)
             ├─► jsonwebtoken (JWT auth)
             └─► express (web server)
 
-initDatabase.js ──► parkshare.db (creates/seeds)
+initDatabase.js ──► carost.db (creates/seeds)
 ```
 
 ---
 
-This documentation provides a complete overview of how ParkShare works. Each component, file, and feature is explained with its purpose, implementation, and how it fits into the overall system.
+This documentation provides a complete overview of how Carost works. Each component, file, and feature is explained with its purpose, implementation, and how it fits into the overall system.

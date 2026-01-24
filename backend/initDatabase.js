@@ -3,7 +3,7 @@ const Database = require('better-sqlite3');
 const bcrypt = require('bcrypt');
 const path = require('path');
 
-const dbPath = path.join(__dirname, 'parkshare.db');
+const dbPath = path.join(__dirname, 'carost.db');
 const db = new Database(dbPath);
 
 console.log('Initializing database...');
@@ -96,7 +96,7 @@ const users = [];
 const hashedPassword = bcrypt.hashSync('password123', 10);
 
 // Create admin/test users
-users.push(['admin@parkshare.com', hashedPassword, 'Admin User', 'owner', '555-0001', 1]);
+users.push(['admin@carost.com', hashedPassword, 'Admin User', 'owner', '555-0001', 1]);
 users.push(['john.doe@example.com', hashedPassword, 'John Doe', 'renter', '555-0002', 1]);
 users.push(['jane.smith@example.com', hashedPassword, 'Jane Smith', 'owner', '555-0003', 1]);
 
@@ -266,7 +266,7 @@ console.log(`Total Vehicles: ${vehicleCount.count}`);
 console.log(`Total Bookings: ${bookingCount.count}`);
 console.log(`Total Rental History: ${historyCount.count}`);
 console.log('\nTest Credentials:');
-console.log('Email: admin@parkshare.com | Password: password123');
+console.log('Email: admin@carost.com | Password: password123');
 console.log('Email: john.doe@example.com | Password: password123');
 console.log('Email: jane.smith@example.com | Password: password123');
 

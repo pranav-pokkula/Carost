@@ -1,6 +1,6 @@
-# ParkShare - macOS Setup Guide
+# Carost - macOS Setup Guide
 
-Complete step-by-step guide for setting up and running ParkShare on macOS.
+Complete step-by-step guide for setting up and running Carost on macOS.
 
 ---
 
@@ -138,12 +138,12 @@ Total Bookings: 50
 Total Rental History: 10
 
 Test Credentials:
-Email: admin@parkshare.com | Password: password123
+Email: admin@carost.com | Password: password123
 Email: john.doe@example.com | Password: password123
 Email: jane.smith@example.com | Password: password123
 ```
 
-This creates a SQLite database (`parkshare.db`) with 123 users, 80 vehicles, and sample data.
+This creates a SQLite database (`carost.db`) with 123 users, 80 vehicles, and sample data.
 
 ---
 
@@ -169,14 +169,14 @@ npm start
 
 **Expected output:**
 ```
-> parkshare-fullstack@1.0.0 start
+> carost-fullstack@1.0.0 start
 > cd backend && npm start
 
-> parkshare-rental@1.0.0 start
+> carost-rental@1.0.0 start
 > node server.js
 
 ╔═══════════════════════════════════════════════════╗
-║   ParkShare Rental API Server                     ║
+║   Carost Rental API Server                     ║
 ║   Server running on http://localhost:3000         ║
 ║   Environment: development                        ║
 ╚═══════════════════════════════════════════════════╝
@@ -209,7 +209,7 @@ Open your web browser and go to:
 http://localhost:3000
 ```
 
-You should see the ParkShare homepage with the modern design!
+You should see the Carost homepage with the modern design!
 
 ---
 
@@ -220,7 +220,7 @@ You should see the ParkShare homepage with the modern design!
 Use these accounts to test the application:
 
 **Admin/Owner Account:**
-- Email: `admin@parkshare.com`
+- Email: `admin@carost.com`
 - Password: `password123`
 
 **Renter Account:**
@@ -323,7 +323,7 @@ npm install
 cd backend
 
 # Remove old database
-rm parkshare.db
+rm carost.db
 
 # Reinitialize
 node initDatabase.js
@@ -413,7 +413,7 @@ Carost/
 ├── backend/                 # Server-side code
 │   ├── server.js           # Main API server
 │   ├── initDatabase.js     # Database setup script
-│   ├── parkshare.db        # SQLite database (created after init)
+│   ├── carost.db        # SQLite database (created after init)
 │   ├── package.json        # Backend dependencies
 │   └── .env                # Environment variables
 │
@@ -486,7 +486,7 @@ git commit -m "Add new feature"
 cd backend
 
 # Remove database
-rm parkshare.db
+rm carost.db
 
 # Reinitialize with fresh data
 node initDatabase.js
@@ -500,7 +500,7 @@ npm start
 
 ## 📱 Accessing from Other Devices
 
-To access ParkShare from other devices on your network (iPhone, iPad, other computers):
+To access Carost from other devices on your network (iPhone, iPad, other computers):
 
 ### Step 1: Find Your Mac's IP Address
 
@@ -595,7 +595,7 @@ Server logs appear in the terminal where you ran `npm start`. Watch for:
 brew install --cask db-browser-for-sqlite
 ```
 
-Then open `backend/parkshare.db` to view data.
+Then open `backend/carost.db` to view data.
 
 ---
 
@@ -612,7 +612,7 @@ If you encounter issues:
 ```bash
 # Fresh start procedure
 cd ~/Desktop/Rental/Carost/backend
-rm -rf node_modules package-lock.json parkshare.db
+rm -rf node_modules package-lock.json carost.db
 npm install
 node initDatabase.js
 cd ..
@@ -628,7 +628,7 @@ Before considering setup complete, verify:
 - [ ] Node.js installed (`node --version` works)
 - [ ] npm installed (`npm --version` works)
 - [ ] Backend dependencies installed (node_modules exists in backend/)
-- [ ] Database initialized (parkshare.db exists in backend/)
+- [ ] Database initialized (carost.db exists in backend/)
 - [ ] Server starts without errors
 - [ ] Can access http://localhost:3000
 - [ ] Can see homepage with modern design
@@ -642,11 +642,11 @@ Before considering setup complete, verify:
 
 If you can:
 1. Access http://localhost:3000
-2. See the modern ParkShare homepage
+2. See the modern Carost homepage
 3. Log in with test credentials
 4. Browse and book vehicles
 
-**Congratulations! Your ParkShare application is running successfully on macOS!** 🚀
+**Congratulations! Your Carost application is running successfully on macOS!** 🚀
 
 ---
 

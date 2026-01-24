@@ -3,7 +3,7 @@ node_modules/
 backend/node_modules/
 
 # Database
-backend/parkshare.db
+backend/carost.db
 
 # Environment variables
 .env
