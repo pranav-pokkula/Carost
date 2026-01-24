@@ -9,13 +9,15 @@
 </head>
 <body onload="init()">
   <nav>
-    <div class="logo">ParkShare</div>
+    <div class="nav-container">
+    <div class="logo">🚗 ParkShare</div>
     <div class="nav-links">
       <a href="index.html">Home</a>
       <a href="vehicles.html">Vehicles</a>
       <a href="login.html">Login</a>
       <a href="register.html">Register</a>
     </div>
+      </div>
   </nav>
 
   <main>
@@ -36,8 +38,8 @@
       <label for="password">Password</label>
       <input type="password" id="password" required>
 
-      <!-- In a real application, you would handle file uploads -->
-      <!-- For this prototype, we'll skip file inputs -->
+      <label for="phone">Phone Number (Optional)</label>
+      <input type="tel" id="phone" placeholder="555-1234">
 
       <button type="submit">Register</button>
     </form>

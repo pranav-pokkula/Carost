@@ -1,0 +1,95 @@
+<!-- booking.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkShare - Book Vehicle</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body onload="init();">
+  <nav>
+    <div class="nav-container">
+    <div class="logo">🚗 ParkShare</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="vehicles.html">Vehicles</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+      </div>
+  </nav>
+
+  <main>
+    <h2>Book Vehicle</h2>
+
+    <!-- Vehicle Info Card -->
+    <div class="card" style="background-color: #f8f9fa; margin-bottom: 20px;">
+      <h3 id="booking-vehicle-title">Loading...</h3>
+      <p id="booking-vehicle-price"></p>
+      <p id="booking-vehicle-location"></p>
+    </div>
+
+    <form onsubmit="bookVehicle(event)">
+      <label for="start-time">Start Time</label>
+      <input type="datetime-local" id="start-time" required onchange="calculateEstimate()">
+
+      <label for="end-time">End Time</label>
+      <input type="datetime-local" id="end-time" required onchange="calculateEstimate()">
+
+      <!-- Cost Estimate -->
+      <div id="cost-estimate" style="background-color: #e7f3ff; padding: 15px; margin: 15px 0; border-radius: 5px; display: none;">
+        <p style="margin: 5px 0;"><strong>Duration:</strong> <span id="duration-display">-</span></p>
+        <p style="margin: 5px 0;"><strong>Estimated Cost:</strong> <span id="cost-display">$0</span></p>
+      </div>
+
+      <button type="submit" class="btn">Confirm Booking</button>
+      <button type="button" onclick="window.location.href='vehicles.html'" style="margin-left: 10px;">Cancel</button>
+    </form>
+  </main>
+
+  <script>
+    // Display booking vehicle info on page load
+    window.addEventListener('load', function() {
+      const vehicle = JSON.parse(localStorage.getItem("selectedVehicle"));
+      if (vehicle) {
+        document.getElementById("booking-vehicle-title").textContent = `${vehicle.brand} ${vehicle.model}`;
+        document.getElementById("booking-vehicle-price").textContent = `Price: $${vehicle.price_per_hour}/hour`;
+        document.getElementById("booking-vehicle-location").textContent = `Location: ${vehicle.location}`;
+      } else {
+        alert('No vehicle selected. Please select a vehicle first.');
+        window.location.href = 'vehicles.html';
+      }
+    });
+
+    // Calculate cost estimate
+    function calculateEstimate() {
+      const vehicle = JSON.parse(localStorage.getItem("selectedVehicle"));
+      if (!vehicle) return;
+
+      const startTime = document.getElementById("start-time").value;
+      const endTime = document.getElementById("end-time").value;
+
+      if (startTime && endTime) {
+        const start = new Date(startTime);
+        const end = new Date(endTime);
+
+        if (end > start) {
+          const hours = Math.ceil((end - start) / (1000 * 60 * 60));
+          const cost = hours * vehicle.price_per_hour;
+
+          document.getElementById("duration-display").textContent = `${hours} hour${hours > 1 ? 's' : ''}`;
+          document.getElementById("cost-display").textContent = `$${cost}`;
+          document.getElementById("cost-estimate").style.display = 'block';
+        } else {
+          document.getElementById("cost-estimate").style.display = 'none';
+        }
+      }
+    }
+  </script>
+
+  <footer>
+    <p>&copy; 2023 ParkShare. All rights reserved.</p>
+  </footer>
+</body>
+</html>
