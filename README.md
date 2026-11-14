@@ -15,27 +15,27 @@
 ### Static visual demo
 Serve the folder and the assets from the repository root so paths beginning with /assets resolve. For example, with Node installed:
 
-\`\`\`bash
+```bash
 npx serve -l 3000 -s frontend/public
-\`\`\`
+```
 
-For correct asset paths, a static server must map \`/assets\` to \`frontend/assets\`. The easiest supported option is the Express server below.
+For correct asset paths, a static server must map `/assets` to `frontend/assets`. The easiest supported option is the Express server below.
 
 ### Full local repository
-\`\`\`bash
+```bash
 npm install
 npm run install-all
 npm run init-db
 npm start
-\`\`\`
-Open \`http://localhost:3000\`.
+```
+Open `http://localhost:3000`.
 
-Optional legacy API testing: copy \`.env.example\` to \`backend/.env\` and set a unique \`JWT_SECRET\`. Without one, the backend uses an ephemeral local secret that resets sessions on restart.
+Optional legacy API testing: copy `.env.example` to `backend/.env` and set a unique `JWT_SECRET`. Without one, the backend uses an ephemeral local secret that resets sessions on restart.
 
 ### Tests
-\`\`\`bash
+```bash
 npm test
-\`\`\`
+```
 
 The static marketplace's code lives in [frontend/public/marketplace.mjs](frontend/public/marketplace.mjs), its curated inventory in [demo-data.mjs](frontend/public/demo-data.mjs), and the testable booking rules in [booking-core.mjs](frontend/public/booking-core.mjs).
 
