@@ -1,72 +1,56 @@
-# Carost
+# Carost — Premium automotive marketplace demo
 
-**A full-stack car rental booking prototype built with Express, SQLite, and vanilla JavaScript.**
+**Carost is a portfolio concept, not a live rental service.** This rebuild pairs a premium vehicle-discovery UI with a fully interactive **local booking simulation**. All vehicle listings, pricing, and saved reservations are fictional. No payment or actual rental is possible.
 
-Carost explores the backend and product flows behind a two-sided rental marketplace: vehicle discovery, account registration, listings, bookings, verification, and rental reviews. It is a **portfolio/demo application using seeded data**, not a live rental service.
+## What changed
+- New responsive, editorial automotive design: home, search, category filters, vehicle cards, vehicle details, and sample trips.
+- Six curated *fictional* listings, with art-direction-specific fallback vector illustrations.
+- Optional locally stored AI-generated concept photographs. Download the accompanying vehicle asset pack and unpack it at the repository root; see [media documentation](frontend/assets/carost/README.md).
+- Date-based rental estimates with an illustrative service fee and 30-day limit.
+- Conflict checks for overlapping simulated trips; cancel trips in the browser.
+- Reusable pure booking-domain functions, plus automated Node tests.
+- **Legacy Express API deliberately disabled when NODE_ENV=production**. The newer visual demo does not require it.
 
-## At a glance
+## Run
+### Static visual demo
+Serve the folder and the assets from the repository root so paths beginning with /assets resolve. For example, with Node installed:
 
-| Layer | Implementation |
-| --- | --- |
-| Frontend | HTML, CSS, JavaScript, Fetch API |
-| API | Node.js, Express, REST-style routes |
-| Data | SQLite via better-sqlite3 |
-| Authentication | bcrypt password hashes and JWT bearer tokens |
-| Local environment | Node.js 18+, npm |
+\`\`\`bash
+npx serve -l 3000 -s frontend/public
+\`\`\`
 
-## What the prototype demonstrates
+For correct asset paths, a static server must map \`/assets\` to \`frontend/assets\`. The easiest supported option is the Express server below.
 
-- **Vehicle discovery:** Browse inventory and filter by location, price, availability status, or search terms.
-- **Two-sided accounts:** Renter and vehicle-owner roles with profile and vehicle endpoints.
-- **Booking lifecycle:** Create reservations, inspect bookings, update status, and review rentals.
-- **Data modeling:** Relational users, vehicles, bookings, verification requests, and rental-history tables.
-- **API integration:** A lightweight browser frontend consuming an Express JSON API.
-
-### Architecture
-
-```text
-Browser UI (frontend/public)
-        |
-        v
-Express routes (backend/server.js)
-        |
-        +-- Authentication / authorization
-        +-- Vehicle search and listings
-        +-- Booking and rental history
-        +-- Verification endpoints
-        |
-        v
-SQLite (backend/carost.db, generated locally)
-```
-
-The database is initialized and populated with **fictional sample records** by `backend/initDatabase.js`. Those records are not evidence of actual customers, rentals, or marketplace activity.
-
-## Run locally
-
-```bash
-git clone https://github.com/pranav-pokkula/Carost.git
-cd Carost
+### Full local repository
+\`\`\`bash
+npm install
 npm run install-all
 npm run init-db
 npm start
-```
+\`\`\`
+Open \`http://localhost:3000\`.
 
-Visit **http://localhost:3000**. Run `npm run dev` for development auto-restart.
+Optional legacy API testing: copy \`.env.example\` to \`backend/.env\` and set a unique \`JWT_SECRET\`. Without one, the backend uses an ephemeral local secret that resets sessions on restart.
 
-Set a unique `JWT_SECRET` in your local environment before starting the server. The current source contains an insecure fallback signing key, so **do not deploy this application publicly as-is**. The sample initialization script creates development-only users and credentials; never reuse them in a real application.
+### Tests
+\`\`\`bash
+npm test
+\`\`\`
 
-## Codebase
+The static marketplace's code lives in [frontend/public/marketplace.mjs](frontend/public/marketplace.mjs), its curated inventory in [demo-data.mjs](frontend/public/demo-data.mjs), and the testable booking rules in [booking-core.mjs](frontend/public/booking-core.mjs).
 
-| Path | Purpose |
-| --- | --- |
-| [backend/server.js](backend/server.js) | HTTP endpoints, authentication, and request handling |
-| [backend/initDatabase.js](backend/initDatabase.js) | SQLite schema and synthetic seed records |
-| [backend/package.json](backend/package.json) | Server dependencies and scripts |
-| [frontend/public](frontend/public) | Browser pages, styles, and interactions |
-| [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) | Additional project notes |
+## The technical distinction
+There are **two intentionally separate experiences**:
 
-## Development status and limitations
+1. **Market-facing demo UI:** client-side fake inventory, favorites, trip estimates, and sample bookings persisted in localStorage. This can be safely demonstrated without collecting any personal information.
+2. **Legacy educational backend:** Express/SQLite routes for accounts, vehicles, and bookings. Its booking routes have gained input and ownership checks, and the API is disabled in production. It remains **development-only**, unverified for production security, identity checks, insurance, payments, or multi-instance concurrency.
 
-Carost is a learning and portfolio prototype. The present code has **not** been independently verified for production security, payments, booking concurrency, real identity verification, or a real vehicle inventory. In particular, the JWT fallback secret, permissive CORS configuration, and verification-code responses need redesign before production use. No deployment URL or automated test result is claimed here.
+The illustrative photography is synthetic mood imagery and does **not** verify a vehicle model, trim, registration, or actual rental inventory.
 
-**Engineering focus:** REST API design · relational data modeling · authentication flows · full-stack feature integration.
+## Scope and remaining engineering work
+- Integrate the new UI with a verified, permissioned persistence layer.
+- Replace the legacy authentication pattern and complete threat-model and authorization tests.
+- Add a transactional booking strategy and payment/identity providers only if this ever becomes an actual operating business.
+- Add accessible E2E tests, deploy-preview checks, and professional screenshots after verification.
+
+**Please do not present Carost as an active booking business.** The goal is a well-scoped portfolio demonstration of product thinking, UI design, and booking logic.

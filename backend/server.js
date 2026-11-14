@@ -9,14 +9,32 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const crypto = require('crypto');
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
+if (!process.env.JWT_SECRET) {
+  console.warn('Using an ephemeral local JWT secret. Sessions will reset on restart.');
+}
 
 // Initialize database
 const db = new Database(path.join(__dirname, 'carost.db'));
 db.pragma('foreign_keys = ON');
 
 // Middleware
-app.use(cors());
+// Same-origin by default. This project is not an open cross-origin API.
+const trustedOrigins = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
+app.use(cors({ origin: trustedOrigins.length ? trustedOrigins : false }));
+// The old API is an intentionally non-production educational prototype.
+// The modern marketplace UI runs its booking simulation entirely in-browser.
+app.use('/api', (req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(503).json({ error: 'Legacy API disabled in production demo.' });
+  }
+  next();
+});
+// Never collect real driver's license or identity document numbers in this demo.
+app.use('/api/verification', (req, res) => {
+  res.status(410).json({ error: 'Identity verification is not offered by this portfolio demo.' });
+});
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend/public'))); // Serve static files
 app.use('/assets', express.static(path.join(__dirname, '../frontend/assets'))); // Serve assets
@@ -158,13 +176,8 @@ app.get('/api/users/me', authenticateToken, (req, res) => {
 
 // Get all users (admin only - for demo purposes)
 app.get('/api/users', authenticateToken, (req, res) => {
-  try {
-    const users = db.prepare('SELECT id, email, name, role, verified, created_at FROM users ORDER BY created_at DESC LIMIT 100').all();
-    res.json({ users, total: users.length });
-  } catch (error) {
-    console.error('Get users error:', error);
-    res.status(500).json({ error: 'Failed to get users' });
-  }
+  // There is no real admin role in this educational database.
+  return res.status(403).json({ error: 'User directory is unavailable.' });
 });
 
 // ===== VEHICLE ROUTES =====
@@ -323,17 +336,34 @@ app.post('/api/bookings', authenticateToken, (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    const hours = Math.ceil((end - start) / 3600000);
+    if (!Number.isFinite(start.getTime()) || !Number.isFinite(end.getTime()) ||
+        end <= start || start <= new Date() || hours > 720) {
+      return res.status(400).json({ error: 'Choose future start and end times, up to 30 days apart.' });
+    }
+    const startISO = start.toISOString();
+    const endISO = end.toISOString();
+
     // Get vehicle
     const vehicle = db.prepare('SELECT * FROM vehicles WHERE id = ? AND status = ?').get(vehicleId, 'available');
     if (!vehicle) {
       return res.status(404).json({ error: 'Vehicle not available' });
     }
 
-    // Calculate total cost
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-    const hours = Math.ceil((end - start) / (1000 * 60 * 60));
-    const totalCost = hours * vehicle.price_per_hour;
+    if (vehicle.owner_id === req.user.id) {
+      return res.status(403).json({ error: 'Owners cannot rent their own vehicle.' });
+    }
+    const overlap = db.prepare(`
+      SELECT id FROM bookings
+      WHERE vehicle_id = ? AND status IN ('pending', 'confirmed')
+      AND start_time < ? AND end_time > ?
+      LIMIT 1
+    `).get(vehicleId, endISO, startISO);
+    if (overlap) return res.status(409).json({ error: 'Vehicle is already reserved for those times.' });
+    // Demo booking calculations; no money is charged.
+    const totalCost = Math.round(hours * vehicle.price_per_hour * 100) / 100;
 
     // Create booking
     const stmt = db.prepare(`
@@ -341,10 +371,8 @@ app.post('/api/bookings', authenticateToken, (req, res) => {
       VALUES (?, ?, ?, ?, ?, 'pending')
     `);
 
-    const result = stmt.run(vehicleId, req.user.id, startTime, endTime, totalCost);
-
-    // Update vehicle status
-    db.prepare("UPDATE vehicles SET status = 'booked' WHERE id = ?").run(vehicleId);
+    const result = stmt.run(vehicleId, req.user.id, startISO, endISO, totalCost);
+    // Availability is date-range based; a reservation does not block all future dates.
 
     res.status(201).json({
       message: 'Booking created successfully',
@@ -368,17 +396,21 @@ app.patch('/api/bookings/:id', authenticateToken, (req, res) => {
       return res.status(400).json({ error: 'Invalid status' });
     }
 
-    const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(bookingId);
-    if (!booking) {
-      return res.status(404).json({ error: 'Booking not found' });
-    }
-
+    const booking = db.prepare(`
+      SELECT b.*, v.owner_id FROM bookings b
+      JOIN vehicles v ON v.id = b.vehicle_id
+      WHERE b.id = ?
+    `).get(bookingId);
+    if (!booking) return res.status(404).json({ error: 'Booking not found' });
+    const isOwner = booking.owner_id === req.user.id;
+    const isRenter = booking.renter_id === req.user.id;
+    if (!isOwner && !isRenter) return res.status(403).json({ error: 'Not your booking' });
+    if (status !== 'cancelled' && !isOwner) return res.status(403).json({ error: 'Only owners can confirm or complete trips' });
+    const transitionAllowed =
+      (booking.status === 'pending' && ['confirmed', 'cancelled'].includes(status)) ||
+      (booking.status === 'confirmed' && ['completed', 'cancelled'].includes(status));
+    if (!transitionAllowed) return res.status(409).json({ error: 'Invalid booking status transition' });
     db.prepare('UPDATE bookings SET status = ? WHERE id = ?').run(status, bookingId);
-
-    // Update vehicle status if cancelled or completed
-    if (status === 'cancelled' || status === 'completed') {
-      db.prepare("UPDATE vehicles SET status = 'available' WHERE id = ?").run(booking.vehicle_id);
-    }
 
     res.json({ message: 'Booking updated successfully' });
   } catch (error) {
@@ -419,9 +451,10 @@ app.post('/api/rental-history', authenticateToken, (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const booking = db.prepare('SELECT * FROM bookings WHERE id = ? AND status = ?').get(bookingId, 'completed');
+    const booking = db.prepare('SELECT * FROM bookings WHERE id = ? AND status = ? AND renter_id = ?')
+      .get(bookingId, 'completed', req.user.id);
     if (!booking) {
-      return res.status(404).json({ error: 'Completed booking not found' });
+      return res.status(404).json({ error: 'Completed booking not found for this account' });
     }
 
     const stmt = db.prepare('INSERT INTO rental_history (booking_id, rating, review) VALUES (?, ?, ?)');
