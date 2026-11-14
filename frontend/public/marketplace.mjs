@@ -36,7 +36,7 @@ function carArt(color, category) {
   const top = isSUV ? 93 : 121;
   const roofPath = isSUV ? 'M231 170 L265 95 Q278 83 303 83 L515 84 Q538 84 552 105 L598 175 Z' :
     'M232 176 L303 118 Q324 107 350 107 L475 109 Q492 110 516 128 L570 176 Z';
-  return '<svg viewBox="0 0 760 320" role="img" aria-label="Illustrative vehicle artwork" xmlns="http://www.w3.org/2000/svg">' +
+  const markup = '<svg viewBox="0 0 760 320" role="img" aria-label="Illustrative vehicle artwork" xmlns="http://www.w3.org/2000/svg">' +
     '<defs><linearGradient id="bodygradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + color + '"/><stop offset=".56" stop-color="' + color + '"/><stop offset="1" stop-color="#202f32"/></linearGradient><linearGradient id="glassgradient" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#c9d4cd" stop-opacity=".94"/><stop offset="1" stop-color="#2b484c"/></linearGradient></defs>' +
     '<ellipse cx="385" cy="280" rx="301" ry="23" fill="#182627" opacity=".19"/>' +
     '<path d="' + roofPath + '" fill="url(#bodygradient)" stroke="#233236" stroke-width="5"/>' +
@@ -50,6 +50,8 @@ function carArt(color, category) {
     '<circle cx="204" cy="257" r="50" fill="#1d2727"/><circle cx="204" cy="257" r="32" fill="#849492" stroke="#e5e9de" stroke-width="5"/><circle cx="204" cy="257" r="11" fill="#263b3a"/>' +
     '<circle cx="580" cy="257" r="50" fill="#1d2727"/><circle cx="580" cy="257" r="32" fill="#849492" stroke="#e5e9de" stroke-width="5"/><circle cx="580" cy="257" r="11" fill="#263b3a"/>' +
     '<path d="M95 244 L145 244 M633 244 L690 244" stroke="#101819" stroke-width="7"/></svg>';
+  return markup.replaceAll('bodygradient', 'body-' + Math.random().toString(36).slice(2))
+    .replaceAll('glassgradient', 'glass-' + Math.random().toString(36).slice(2));
 }
 function photoMarkup(car, extraClass) {
   return '<div class="' + extraClass + '" style="background:linear-gradient(150deg,' + car.scene + ',#a7b9b1)">' +
