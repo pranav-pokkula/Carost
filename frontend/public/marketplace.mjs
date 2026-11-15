@@ -55,7 +55,7 @@ function carArt(color, category) {
 }
 function photoMarkup(car, extraClass) {
   return '<div class="' + extraClass + '" style="background:linear-gradient(150deg,' + car.scene + ',#a7b9b1)">' +
-    carArt(car.color, car.category) + '<img src="/assets/carost/' + encodeURIComponent(car.image) + '" loading="lazy" alt="Concept automotive mood photograph; not the exact listed vehicle" onerror="this.onerror=null;this.src=this.src.replace(/\\.webp$/, \'.svg\')">' +
+    carArt(car.color, car.category) + '<img src="/assets/carost/' + encodeURIComponent(car.image) + '" loading="lazy" alt="Concept automotive mood photograph; not the exact listed vehicle" onerror="this.onerror=null;this.src=this.src.slice(0,-5)+\'.svg\'">' +
     '</div>';
 }
 function renderFilters() {
@@ -82,7 +82,7 @@ function carCard(car) {
   return '<article class="vehicle-card">' +
     '<div class="vehicle-art" style="background:linear-gradient(140deg,' + car.scene + ',#acbab1)">' +
     carArt(car.color, car.category) +
-    '<img src="/assets/carost/' + encodeURIComponent(car.image) + '" alt="Automotive concept photograph, illustrative only" loading="lazy" onerror="this.onerror=null;this.src=this.src.replace(/\\.webp$/, \'.svg\')">' +
+    '<img src="/assets/carost/' + encodeURIComponent(car.image) + '" alt="Automotive concept photograph, illustrative only" loading="lazy" onerror="this.onerror=null;this.src=this.src.slice(0,-5)+\'.svg\'">' +
     '<span class="vehicle-tag">' + safeText(car.tag) + '</span>' +
     '<button class="favorite' + flagged + '" type="button" data-favorite="' + car.id + '" aria-label="' + (fav?'Remove favorite ':'Save favorite ') + details + '" aria-pressed="' + fav + '">' + (fav?'♥':'♡') + '</button></div>' +
     '<div class="vehicle-body"><div class="vehicle-topline"><div><h3 class="vehicle-title">' + details + '</h3><div class="vehicle-area">⌖ ' + car.area + ', ' + car.city + ' · ' + car.year + '</div></div><div class="vehicle-price">' + money(car.price) + '<small> / day</small></div></div>' +
